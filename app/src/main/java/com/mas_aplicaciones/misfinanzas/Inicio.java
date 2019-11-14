@@ -79,6 +79,7 @@ public class Inicio extends Fragment {
 
         if( fila.moveToFirst()) {
             BaseDatos.usuarioID = fila.getInt(fila.getColumnIndex("id"));
+            BaseDatos.nombreUsuario = fila.getString(fila.getColumnIndex("nombre"));
             usuario.setText("");
             clave.setText("");
             Navigation.findNavController(this.getView()).navigate(R.id.action_inicio_to_listado);

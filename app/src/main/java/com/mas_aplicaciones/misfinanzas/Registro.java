@@ -22,7 +22,7 @@ import android.widget.Toast;
  * A simple {@link Fragment} subclass.
  */
 public class Registro extends Fragment {
-
+    private EditText nombre;
     private EditText usuario;
     private EditText clave1;
     private EditText clave2;
@@ -42,6 +42,7 @@ public class Registro extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        nombre = view.findViewById(R.id.textoNombreUsuario);
         usuario = view.findViewById(R.id.textoUsuario);
         clave1 = view.findViewById(R.id.textoClave1);
         clave2 = view.findViewById(R.id.textoClave2);
@@ -53,7 +54,7 @@ public class Registro extends Fragment {
                 if( clave1.getText().toString().equals(clave2.getText().toString()) ){
                     SQLiteDatabase baseDatos = (new BaseDatos(getContext(), "myBD", null, BaseDatos.versionBD)).getWritableDatabase();
                     ContentValues valores = new ContentValues();
-
+                    valores.put("nombre", nombre.getText().toString());
                     valores.put("usuario", usuario.getText().toString());
                     valores.put("clave", clave1.getText().toString());
 

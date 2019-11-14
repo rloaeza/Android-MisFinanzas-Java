@@ -8,8 +8,9 @@ import androidx.annotation.Nullable;
 
 public class BaseDatos extends SQLiteOpenHelper {
 
-    public static int versionBD  = 4;
+    public static int versionBD  = 5;
     public static int usuarioID = -1;
+    public static String nombreUsuario = "";
 
     private String sql_finanzas = "create table finanzas(" +
             "id integer primary key autoincrement," +
@@ -20,6 +21,7 @@ public class BaseDatos extends SQLiteOpenHelper {
 
     private String sql_usuarios = "create table usuarios(" +
             "id integer primary key autoincrement," +
+            "nombre text," +
             "usuario text," +
             "clave text" +
             ")";

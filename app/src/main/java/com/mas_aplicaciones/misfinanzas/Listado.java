@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ import java.util.List;
  */
 public class Listado extends Fragment {
 
+    TextView textoNombreUsuario;
     ListView listaMovimientos;
     List<String> datosListaMovimientos =  new ArrayList<String>();
     ArrayAdapter<String> arrayAdapter;
@@ -46,6 +48,8 @@ public class Listado extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        textoNombreUsuario = view.findViewById(R.id.textoNombreUsuario);
+        textoNombreUsuario.setText(BaseDatos.nombreUsuario);
         listaMovimientos = view.findViewById(R.id.listaMovimientos);
 
         Button botonAgregarMovimiento = view.findViewById(R.id.botonAgregarMovimiento);
