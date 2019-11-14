@@ -28,9 +28,11 @@ import java.util.List;
  */
 public class Listado extends Fragment {
 
+    TextView textoBalance;
     TextView textoNombreUsuario;
     ListView listaMovimientos;
     List<String> datosListaMovimientos =  new ArrayList<String>();
+    private double balance = 0;
     ArrayAdapter<String> arrayAdapter;
     public Listado() {
         // Required empty public constructor
@@ -48,6 +50,7 @@ public class Listado extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        textoBalance = view.findViewById(R.id.textoBalance);
         textoNombreUsuario = view.findViewById(R.id.textoNombreUsuario);
         textoNombreUsuario.setText(BaseDatos.nombreUsuario);
         listaMovimientos = view.findViewById(R.id.listaMovimientos);
@@ -77,13 +80,16 @@ public class Listado extends Fragment {
 
         if (fila.moveToFirst()) {
             datosListaMovimientos.clear();
+            balance = 0;
             do {
                 String descripcion = fila.getString(fila.getColumnIndex("descripcion"));
                 String monto = fila.getString(fila.getColumnIndex("monto"));
                 datosListaMovimientos.add(String.format("%s -> %s", descripcion, monto));
+                balance += Double.valueOf(monto);
             }while(fila.moveToNext());
-
+            textoBalance.setText(String.format("%s: $%s", getString(R.string.balance), String.valueOf(balance)));
             arrayAdapter.notifyDataSetChanged();
+
         }
     }
 }

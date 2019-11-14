@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 
@@ -25,6 +26,7 @@ public class AgregarMovimiento extends Fragment {
 
     EditText descripcion;
     EditText monto;
+    private Switch esRetiro;
 
     public AgregarMovimiento() {
         // Required empty public constructor
@@ -44,6 +46,9 @@ public class AgregarMovimiento extends Fragment {
 
         descripcion = view.findViewById(R.id.textoDescripcion);
         monto = view.findViewById(R.id.textoMonto);
+        esRetiro = view.findViewById(R.id.esRetiro);
+
+
         Button botonAgregarMovimiento = view.findViewById(R.id.botonAgregarMovimiento);
 
         botonAgregarMovimiento.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +63,7 @@ public class AgregarMovimiento extends Fragment {
                 ContentValues valores = new ContentValues();
 
                 valores.put("descripcion", descripcion.getText().toString());
-                valores.put("monto", Double.valueOf(monto.getText().toString()));
+                valores.put("monto", (esRetiro.isChecked()?-1:1)*Double.valueOf(monto.getText().toString()));
                 valores.put("usuario", BaseDatos.usuarioID);
 
                 baseDatos.insert("finanzas", null, valores);

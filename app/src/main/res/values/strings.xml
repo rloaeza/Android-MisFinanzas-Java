@@ -11,4 +11,6 @@
     <string name="descripcion">Descripcion</string>
     <string name="monto">Monto</string>
     <string name="nombreUsuario">Nombre de usuario</string>
+    <string name="retiro">¿Es un retiro?</string>
+    <string name="balance">Balance</string>
 </resources>
