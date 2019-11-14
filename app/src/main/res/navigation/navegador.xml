@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navegador"
+    app:startDestination="@id/inicio">
+    <fragment
+        android:id="@+id/inicio"
+        android:name="com.mas_aplicaciones.misfinanzas.Inicio"
+        android:label="fragment_inicio"
+        tools:layout="@layout/fragment_inicio" >
+        <action
+            android:id="@+id/action_inicio_to_registro"
+            app:destination="@id/registro" />
+        <action
+            android:id="@+id/action_inicio_to_listado"
+            app:destination="@id/listado" />
+    </fragment>
+    <fragment
+        android:id="@+id/registro"
+        android:name="com.mas_aplicaciones.misfinanzas.Registro"
+        android:label="fragment_registro"
+        tools:layout="@layout/fragment_registro" />
+    <fragment
+        android:id="@+id/listado"
+        android:name="com.mas_aplicaciones.misfinanzas.Listado"
+        android:label="fragment_listado"
+        tools:layout="@layout/fragment_listado" >
+        <action
+            android:id="@+id/action_listado_to_agregarMovimiento"
+            app:destination="@id/agregarMovimiento" />
+    </fragment>
+    <fragment
+        android:id="@+id/agregarMovimiento"
+        android:name="com.mas_aplicaciones.misfinanzas.AgregarMovimiento"
+        android:label="fragment_agregar_movimiento"
+        tools:layout="@layout/fragment_agregar_movimiento" />
+</navigation>
