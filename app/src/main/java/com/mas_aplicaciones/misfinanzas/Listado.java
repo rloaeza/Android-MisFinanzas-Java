@@ -31,9 +31,9 @@ public class Listado extends Fragment {
     TextView textoBalance;
     TextView textoNombreUsuario;
     ListView listaMovimientos;
-    List<String> datosListaMovimientos =  new ArrayList<String>();
+    List<Movimientos> datosListaMovimientos =  new ArrayList<>();
     private double balance = 0;
-    ArrayAdapter<String> arrayAdapter;
+    ArrayAdapter<Movimientos> arrayAdapter;
     public Listado() {
         // Required empty public constructor
     }
@@ -55,6 +55,17 @@ public class Listado extends Fragment {
         textoNombreUsuario.setText(BaseDatos.nombreUsuario);
         listaMovimientos = view.findViewById(R.id.listaMovimientos);
 
+        Button botonBorrarMovimientos = view.findViewById(R.id.botonBorrarMovimientos);
+        botonBorrarMovimientos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SQLiteDatabase baseDatos = (new BaseDatos(getContext(), BaseDatos.nombreBD, null, BaseDatos.versionBD)).getWritableDatabase();
+                baseDatos.delete("finanzas", String.format("usuario=%d", BaseDatos.usuarioID), null);
+                baseDatos.close();
+                buscarMovimientos();
+            }
+        });
+
         Button botonAgregarMovimiento = view.findViewById(R.id.botonAgregarMovimiento);
         botonAgregarMovimiento.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,33 +74,35 @@ public class Listado extends Fragment {
             }
         });
 
-         arrayAdapter = new ArrayAdapter<String>(
+         arrayAdapter = new ArrayAdapter<Movimientos>(
                 getContext(),
                 android.R.layout.simple_list_item_1,
                 datosListaMovimientos);
-
         listaMovimientos.setAdapter(arrayAdapter);
-
         buscarMovimientos();
     }
     private void buscarMovimientos() {
-        SQLiteDatabase baseDatos = (new BaseDatos(getContext(), "myBD", null, BaseDatos.versionBD)).getReadableDatabase();
-
-        String sql = String.format("select * from finanzas where usuario=%d", BaseDatos.usuarioID);
+        SQLiteDatabase baseDatos = (new BaseDatos(getContext(), BaseDatos.nombreBD, null, BaseDatos.versionBD)).getReadableDatabase();
+        String sql = String.format("SELECT * FROM finanzas WHERE usuario=%d", BaseDatos.usuarioID);
         Cursor fila = baseDatos.rawQuery(sql, null);
-
+        datosListaMovimientos.clear();
+        balance = 0;
         if (fila.moveToFirst()) {
-            datosListaMovimientos.clear();
-            balance = 0;
-            do {
-                String descripcion = fila.getString(fila.getColumnIndex("descripcion"));
-                String monto = fila.getString(fila.getColumnIndex("monto"));
-                datosListaMovimientos.add(String.format("%s -> %s", descripcion, monto));
-                balance += Double.valueOf(monto);
-            }while(fila.moveToNext());
-            textoBalance.setText(String.format("%s: $%s", getString(R.string.balance), String.valueOf(balance)));
-            arrayAdapter.notifyDataSetChanged();
 
+            do {
+                Movimientos movimiento = new Movimientos(
+                        fila.getInt(fila.getColumnIndex("id")),
+                        fila.getString(fila.getColumnIndex("descripcion")),
+                        fila.getDouble(fila.getColumnIndex("monto")),
+                        fila.getInt(fila.getColumnIndex("usuario"))
+                );
+                datosListaMovimientos.add(movimiento);
+                balance += Double.valueOf(movimiento.getMonto());
+            }while(fila.moveToNext());
         }
+        fila.close();
+        baseDatos.close();
+        textoBalance.setText(String.format("%s: $%s", getString(R.string.balance), String.valueOf(balance)));
+        arrayAdapter.notifyDataSetChanged();
     }
 }

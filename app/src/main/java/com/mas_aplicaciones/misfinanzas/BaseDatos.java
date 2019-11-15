@@ -8,7 +8,9 @@ import androidx.annotation.Nullable;
 
 public class BaseDatos extends SQLiteOpenHelper {
 
-    public static int versionBD  = 5;
+    public static int versionBD  = 1;
+    public static String nombreBD  = "misFinanzasBD";
+
     public static int usuarioID = -1;
     public static String nombreUsuario = "";
 

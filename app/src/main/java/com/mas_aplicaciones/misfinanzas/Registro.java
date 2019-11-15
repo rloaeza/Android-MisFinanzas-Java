@@ -53,19 +53,18 @@ public class Registro extends Fragment {
             @Override
             public void onClick(View v) {
                 if( clave1.getText().toString().equals(clave2.getText().toString()) ){
-                    SQLiteDatabase baseDatos = (new BaseDatos(getContext(), "myBD", null, BaseDatos.versionBD)).getWritableDatabase();
+                    SQLiteDatabase baseDatos = (new BaseDatos(getContext(), BaseDatos.nombreBD, null, BaseDatos.versionBD)).getWritableDatabase();
                     ContentValues valores = new ContentValues();
                     valores.put("nombre", nombre.getText().toString());
                     valores.put("usuario", usuario.getText().toString());
                     valores.put("clave", clave1.getText().toString());
-
                     baseDatos.insert("usuarios", null, valores);
                     baseDatos.close();
                     Navigation.findNavController(v).popBackStack();
 
                 }
                 else {
-                    Toast.makeText(getContext(), "Claves no coinciden", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.error_no_coinciden_claves), Toast.LENGTH_SHORT).show();
                 }
 
 

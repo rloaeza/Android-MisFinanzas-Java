@@ -62,6 +62,8 @@ public class Inicio extends Fragment {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(v).navigate(R.id.action_inicio_to_registro);
+                usuario.setText("");
+                clave.setText("");
 
             }
         });
@@ -72,21 +74,21 @@ public class Inicio extends Fragment {
 
 
     public void entrar(View v) {
-        SQLiteDatabase baseDatos = (new BaseDatos(getContext(), "myBD", null, BaseDatos.versionBD)).getReadableDatabase();
+        SQLiteDatabase baseDatos = (new BaseDatos(getContext(), BaseDatos.nombreBD, null, BaseDatos.versionBD)).getReadableDatabase();
 
-        String sql = String.format("select * from usuarios where usuario='%s' and clave='%s'", usuario.getText().toString(), clave.getText().toString());
+        String sql = String.format("SELECT * FROM usuarios WHERE usuario='%s' AND clave='%s'", usuario.getText().toString(), clave.getText().toString());
         Cursor fila = baseDatos.rawQuery(sql, null);
 
         if( fila.moveToFirst()) {
             BaseDatos.usuarioID = fila.getInt(fila.getColumnIndex("id"));
             BaseDatos.nombreUsuario = fila.getString(fila.getColumnIndex("nombre"));
+            Navigation.findNavController(this.getView()).navigate(R.id.action_inicio_to_listado);
             usuario.setText("");
             clave.setText("");
-            Navigation.findNavController(this.getView()).navigate(R.id.action_inicio_to_listado);
 
 
         }else {
-            Toast.makeText(getContext(), "No existe usuario", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.error_no_existe_usuario), Toast.LENGTH_SHORT).show();
         }
         fila.close();
         baseDatos.close();

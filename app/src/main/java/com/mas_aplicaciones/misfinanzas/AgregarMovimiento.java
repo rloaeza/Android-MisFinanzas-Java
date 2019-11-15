@@ -55,11 +55,11 @@ public class AgregarMovimiento extends Fragment {
             @Override
             public void onClick(View v) {
                 if( descripcion.getText().toString().isEmpty() || monto.getText().toString().isEmpty()) {
-                    Toast.makeText(getContext(), "Faltan valores", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.error_faltan_datos), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                SQLiteDatabase baseDatos = (new BaseDatos(getContext(), "myBD", null, BaseDatos.versionBD)).getWritableDatabase();
+                SQLiteDatabase baseDatos = (new BaseDatos(getContext(), BaseDatos.nombreBD, null, BaseDatos.versionBD)).getWritableDatabase();
                 ContentValues valores = new ContentValues();
 
                 valores.put("descripcion", descripcion.getText().toString());

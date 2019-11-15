@@ -13,4 +13,9 @@
     <string name="nombreUsuario">Nombre de usuario</string>
     <string name="retiro">¿Es un retiro?</string>
     <string name="balance">Balance</string>
+
+    <string name="error_no_existe_usuario">No existe usuario o clave incorrecta</string>
+    <string name="error_no_coinciden_claves">No coinciden las claves</string>
+    <string name="error_faltan_datos">Faltan datos</string>
+    <string name="borrar_movimientos">Borrar Movimientos</string>
 </resources>
